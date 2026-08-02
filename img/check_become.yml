@@ -1,0 +1,11 @@
+---
+- name: Check become
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: Print effective user
+      command: whoami
+      register: who_result
+    - debug:
+        var: who_result.stdout

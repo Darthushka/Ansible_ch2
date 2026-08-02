@@ -1,0 +1,28 @@
+---
+- name: Install and configure MOTD with host info
+  hosts: local
+  become: true
+  tasks:
+    - name: Gather facts (ensure ansible_facts are available)
+      setup:
+        gather_subset: "!all"
+
+    - name: Build MOTD content
+      set_fact:
+        motd_content: |
+          
+          #  Welcome to the Ansible test VM
+          #
+          #  Hostname: {{ ansible_hostname }}
+          #  IP Address: {{ ansible_default_ipv4.address | default('unknown') }}
+          #
+          #  Have a great day, SysAdmin! 
+         
+
+    - name: Write MOTD file
+      copy:
+        content: "{{ motd_content }}"
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: '0644'

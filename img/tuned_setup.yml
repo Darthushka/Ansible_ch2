@@ -1,0 +1,22 @@
+---
+- name: Install and enable tuned service
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install tuned package from default repository
+      apt:
+        name: tuned
+        state: present
+      when: ansible_os_family == "Debian"
+
+    
+    - name: Enable tuned to start on boot
+      systemd:
+        name: tuned
+        enabled: yes
+
+    - name: Start tuned service
+      systemd:
+        name: tuned
+        state: started

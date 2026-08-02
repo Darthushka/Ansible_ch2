@@ -1,0 +1,6 @@
+---
+- name: Deploy Apache with system info page
+  hosts: local
+  become: true
+  roles:
+    - apache_web
